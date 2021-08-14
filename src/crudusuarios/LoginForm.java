@@ -15,6 +15,7 @@ public class LoginForm extends javax.swing.JFrame {
      * Creates new form LoginForm
      */
     static LoginPanel lPanel = new LoginPanel();
+    public static LoginForm lg = new LoginForm();
     
     public LoginForm() {
         initComponents();
@@ -26,7 +27,10 @@ public class LoginForm extends javax.swing.JFrame {
     
  
     public void change(){
-       
+        container.removeAll();
+        container.revalidate();
+        container.repaint();
+        
         container.add(lPanel);
         container.validate();
         container.repaint(); 
@@ -81,9 +85,11 @@ public class LoginForm extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LoginForm().setVisible(true);
+                lg.setVisible(true);
             }
         });
     }

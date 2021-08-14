@@ -17,6 +17,11 @@ public class UpdateForm extends javax.swing.JDialog {
     public UpdateForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+    }
+
+    UpdateForm() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -26,18 +31,65 @@ public class UpdateForm extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(200, 245, 233));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(126, 125, 125));
+        jLabel1.setText("UPDATE USER");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jTextField1.setBackground(new java.awt.Color(225, 225, 225));
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jTextField1.setForeground(new java.awt.Color(126, 125, 125));
+        jTextField1.setText("Name");
+        jPanel2.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 251, 38));
+
+        jTextField2.setBackground(new java.awt.Color(225, 225, 225));
+        jTextField2.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jTextField2.setForeground(new java.awt.Color(126, 125, 125));
+        jTextField2.setText("Last name");
+        jPanel2.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 251, 38));
+
+        jTextField3.setBackground(new java.awt.Color(225, 225, 225));
+        jTextField3.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jTextField3.setForeground(new java.awt.Color(126, 125, 125));
+        jTextField3.setText("Phone");
+        jPanel2.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 251, 38));
+
+        jTextField4.setBackground(new java.awt.Color(225, 225, 225));
+        jTextField4.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jTextField4.setForeground(new java.awt.Color(126, 125, 125));
+        jTextField4.setText("Email");
+        jPanel2.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 251, 38));
+
+        jButton1.setBackground(new java.awt.Color(112, 216, 136));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Update");
+        jButton1.setBorder(null);
+        jButton1.setFocusable(false);
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, 151, 38));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 272, 390));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 430));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -85,5 +137,13 @@ public class UpdateForm extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }

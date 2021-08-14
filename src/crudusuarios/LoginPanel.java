@@ -5,6 +5,8 @@
  */
 package crudusuarios;
 
+import static crudusuarios.LoginForm.container;
+import static crudusuarios.LoginForm.lg;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import javax.swing.JOptionPane;
@@ -33,9 +35,9 @@ public class LoginPanel extends javax.swing.JPanel {
         LoginView = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txt_username = new javax.swing.JTextField();
-        txt_pass = new javax.swing.JTextField();
         btn_SignIn = new javax.swing.JButton();
         btn_register = new javax.swing.JButton();
+        txt_pass = new javax.swing.JPasswordField();
         RegisterView = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(200, 245, 233));
@@ -51,26 +53,16 @@ public class LoginPanel extends javax.swing.JPanel {
         LoginView.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, -1, -1));
 
         txt_username.setBackground(new java.awt.Color(225, 225, 225));
-        txt_username.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        txt_username.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         txt_username.setForeground(new java.awt.Color(126, 125, 125));
         txt_username.setText("Username");
+        txt_username.setToolTipText("Username");
         txt_username.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txt_usernameMouseClicked(evt);
             }
         });
         LoginView.add(txt_username, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 251, 38));
-
-        txt_pass.setBackground(new java.awt.Color(225, 225, 225));
-        txt_pass.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        txt_pass.setForeground(new java.awt.Color(126, 125, 125));
-        txt_pass.setText("Password");
-        txt_pass.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_passMouseClicked(evt);
-            }
-        });
-        LoginView.add(txt_pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 251, 38));
 
         btn_SignIn.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         btn_SignIn.setForeground(new java.awt.Color(126, 125, 125));
@@ -108,6 +100,17 @@ public class LoginPanel extends javax.swing.JPanel {
         });
         LoginView.add(btn_register, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 151, 38));
 
+        txt_pass.setBackground(new java.awt.Color(225, 225, 225));
+        txt_pass.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        txt_pass.setForeground(new java.awt.Color(126, 125, 125));
+        txt_pass.setText("jPasswordField1");
+        txt_pass.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_passMouseClicked(evt);
+            }
+        });
+        LoginView.add(txt_pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 251, 38));
+
         add(LoginView, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 272, 300));
 
         RegisterView.setBackground(new java.awt.Color(200, 245, 233));
@@ -118,7 +121,7 @@ public class LoginPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     
     private boolean validateTxtFields(){  
-        return (txt_pass.getText().length() == 0) || (txt_username.getText().length() == 0);
+        return (String.valueOf(txt_pass.getPassword()).length() == 0) || (txt_username.getText().length() == 0);
     }
     
     private void btn_SignInMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SignInMouseEntered
@@ -163,15 +166,23 @@ public class LoginPanel extends javax.swing.JPanel {
         txt_username.setText("");
     }//GEN-LAST:event_txt_usernameMouseClicked
 
-    private void txt_passMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_passMouseClicked
-        txt_pass.setText("");
-    }//GEN-LAST:event_txt_passMouseClicked
-
     private void btn_SignInMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SignInMouseClicked
         if(this.validateTxtFields()){
             JOptionPane.showMessageDialog(null, "Campos vacios");
-        } 
+        }else{
+            Principal pView = new Principal();
+            
+            lg.setVisible(false);
+            
+            pView.setVisible(true);
+            
+        }
+        
     }//GEN-LAST:event_btn_SignInMouseClicked
+
+    private void txt_passMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_passMouseClicked
+        txt_pass.setText("");
+    }//GEN-LAST:event_txt_passMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -180,7 +191,7 @@ public class LoginPanel extends javax.swing.JPanel {
     private javax.swing.JButton btn_SignIn;
     private javax.swing.JButton btn_register;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField txt_pass;
+    private javax.swing.JPasswordField txt_pass;
     private javax.swing.JTextField txt_username;
     // End of variables declaration//GEN-END:variables
 }
