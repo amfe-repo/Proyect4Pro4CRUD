@@ -5,6 +5,10 @@
  */
 package crudusuarios;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Akme
@@ -15,7 +19,8 @@ public class LoginPanel extends javax.swing.JPanel {
      * Creates new form LoginPanel
      */
     public LoginPanel() {
-        initComponents();
+        initComponents(); 
+        
     }
 
     /**
@@ -25,21 +30,118 @@ public class LoginPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setPreferredSize(new java.awt.Dimension(440, 799));
+        LoginView = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        btn_SignIn = new javax.swing.JButton();
+        btn_register = new javax.swing.JButton();
+        RegisterView = new javax.swing.JPanel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 440, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 590, Short.MAX_VALUE)
-        );
+        setBackground(new java.awt.Color(200, 245, 233));
+        setPreferredSize(new java.awt.Dimension(440, 799));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        LoginView.setBackground(new java.awt.Color(255, 255, 255));
+        LoginView.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(126, 125, 125));
+        jLabel1.setText("LOGIN");
+        LoginView.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, -1, -1));
+
+        jTextField1.setBackground(new java.awt.Color(225, 225, 225));
+        LoginView.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 251, 38));
+
+        jTextField2.setBackground(new java.awt.Color(225, 225, 225));
+        LoginView.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 251, 38));
+
+        btn_SignIn.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        btn_SignIn.setForeground(new java.awt.Color(126, 125, 125));
+        btn_SignIn.setText("Sign In");
+        btn_SignIn.setBorder(null);
+        btn_SignIn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_SignInMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_SignInMouseExited(evt);
+            }
+        });
+        LoginView.add(btn_SignIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 151, 38));
+
+        btn_register.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        btn_register.setForeground(new java.awt.Color(126, 125, 125));
+        btn_register.setText("Register");
+        btn_register.setBorder(null);
+        btn_register.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_registerMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_registerMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_registerMouseExited(evt);
+            }
+        });
+        LoginView.add(btn_register, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 151, 38));
+
+        add(LoginView, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 272, 300));
+
+        RegisterView.setBackground(new java.awt.Color(200, 245, 233));
+        RegisterView.setAlignmentX(0.0F);
+        RegisterView.setAlignmentY(0.0F);
+        RegisterView.setLayout(new javax.swing.BoxLayout(RegisterView, javax.swing.BoxLayout.LINE_AXIS));
+        add(RegisterView, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -10, 460, 780));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_SignInMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SignInMouseEntered
+        btn_SignIn.setBackground(new Color(106, 197, 127));
+        btn_SignIn.setForeground(new Color(255,255,255));
+    }//GEN-LAST:event_btn_SignInMouseEntered
+
+    private void btn_SignInMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SignInMouseExited
+        btn_SignIn.setBackground(new Color(255,255,255));
+        btn_SignIn.setForeground(new Color(126,125,125));
+    }//GEN-LAST:event_btn_SignInMouseExited
+
+    private void btn_registerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_registerMouseClicked
+        RegisterView.removeAll();
+        LoginView.removeAll();
+        RegisterView.revalidate();
+        LoginView.revalidate();
+        
+        RegisterView.setLayout(new FlowLayout());
+        
+        RegisterView.add(new RegisterPanel());
+        //LoginView.setVisible(false);
+        RegisterView.setVisible(true);
+        
+        //RegisterView.removeAll();
+        LoginView.removeAll();
+        LoginView.setLayout(new FlowLayout());
+       // JOptionPane.showMessageDialog(null, LoginView.getComponentCount() + " -- " + RegisterView.getComponentCount());
+    }//GEN-LAST:event_btn_registerMouseClicked
+
+    private void btn_registerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_registerMouseEntered
+        btn_register.setBackground(new Color(106, 197, 127));
+        btn_register.setForeground(new Color(255,255,255));
+    }//GEN-LAST:event_btn_registerMouseEntered
+
+    private void btn_registerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_registerMouseExited
+        btn_register.setBackground(new Color(255,255,255));
+        btn_register.setForeground(new Color(126,125,125));
+    }//GEN-LAST:event_btn_registerMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel LoginView;
+    private javax.swing.JPanel RegisterView;
+    private javax.swing.JButton btn_SignIn;
+    private javax.swing.JButton btn_register;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }

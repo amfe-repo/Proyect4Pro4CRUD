@@ -24,6 +24,7 @@ public class Principal extends javax.swing.JFrame {
 
     public Principal() {
         initComponents();
+        setLocationRelativeTo(null);
         TableUsers.setRowHeight(30);
         TableUsers.setSelectionBackground(new Color(200, 200, 200));
         JTableHeader th = TableUsers.getTableHeader();
