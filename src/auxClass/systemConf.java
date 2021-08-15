@@ -8,6 +8,8 @@ package auxClass;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,8 +18,8 @@ import javax.swing.JOptionPane;
  */
 public class systemConf {
     
-    Users session = null;
-    ConnectionSQLITE sqlConn = null;
+    public static Users session;
+    ConnectionSQLITE sqlConn;
     DefaultTableModel modelTable;
     
     public systemConf(){  
@@ -25,8 +27,8 @@ public class systemConf {
         this.sqlConn.initConnection();
     }
     
-    public void createSession(Users session){
-        this.session = session;
+    public void createSession(Users session1){
+        session = session1;
     }
     
     public ResultSet selectData(String sql) throws SQLException{
@@ -43,7 +45,21 @@ public class systemConf {
         
     }
     
+    public void updateData(String sql) throws SQLException{
+        this.sqlConn.executeStatementSQL(1, sql);
+        JOptionPane.showMessageDialog(null, "Se ha actualizado correctamente");
+    }
+    
     public void closeConnection() throws SQLException{
         this.sqlConn.closeConnection();
     }
+    
+    public void verify(){
+        try {
+            JOptionPane.showMessageDialog(null, this.sqlConn.verify());
+        } catch (SQLException ex) {
+            Logger.getLogger(systemConf.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }

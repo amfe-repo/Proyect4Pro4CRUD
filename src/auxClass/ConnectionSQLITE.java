@@ -17,6 +17,8 @@ public class ConnectionSQLITE {
     
     private static Connection connect;
     private static ConnectionSQLITE instance;
+    private static PreparedStatement ps;
+    
      
     String url = "jdbc:sqlite:"+ System.getProperty("user.dir") + "\\db\\crud.db";
       
@@ -59,26 +61,34 @@ public class ConnectionSQLITE {
           
         if(ConnectionSQLITE.connect != null){
             
+            ConnectionSQLITE.ps.close();
             ConnectionSQLITE.connect.close();
+            
             
         }else{
             JOptionPane.showMessageDialog(null, "Existe un error con la base de datos ");
         }
     }
     
+    public boolean verify() throws SQLException{
+        return ConnectionSQLITE.ps.isClosed() || ConnectionSQLITE.connect.isClosed();
+    }
+    
     public ResultSet executeStatementSQL(int selection, String sqlStatement) throws SQLException{
         
-        PreparedStatement ps = ConnectionSQLITE.connect.prepareStatement(sqlStatement);
+        this.ps = ConnectionSQLITE.connect.prepareStatement(sqlStatement);
         
         if(selection <= 0){
             
             return ps.executeQuery();
             
-        }else{
+        }else if(selection == 1){
             
             ps.execute();
             
         }
+        
+        ps.close();
         return null;
     }
 }

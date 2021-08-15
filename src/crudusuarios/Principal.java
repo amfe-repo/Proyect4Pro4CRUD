@@ -1,6 +1,7 @@
 package crudusuarios;
 
 
+import auxClass.ConnectionSQLITE;
 import auxClass.systemConf;
 import static crudusuarios.LoginForm.lg;
 import java.awt.Color;
@@ -33,18 +34,30 @@ public class Principal extends javax.swing.JFrame {
     public Principal() throws SQLException {
         initComponents();
         setLocationRelativeTo(null);
-        TableUsers.setRowHeight(30);
-        TableUsers.setSelectionBackground(new Color(200, 200, 200));
-        JTableHeader th = TableUsers.getTableHeader();
-        ((DefaultTableCellRenderer)th.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
-        th.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        th.setForeground(new Color(255, 255, 255));
+        
+        configTable();
+        
         jPopupMenu1.add(pnl_btnUpdateDelete);
         
-        this.sys = new systemConf();
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        
+        TableUsers.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        TableUsers.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        TableUsers.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        TableUsers.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        TableUsers.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        
+        
         this.modelTable = (DefaultTableModel) TableUsers.getModel();
         
         chargeTable();
+        
+        userActualName.setText(sys.session.getUserName());
+        label_name.setText(sys.session.getName());
+        label_lastname.setText(sys.session.getLastName());
+        label_email.setText(sys.session.getEmail());
+        this.sys.closeConnection();
     }
     
     @SuppressWarnings("unchecked")
@@ -59,9 +72,9 @@ public class Principal extends javax.swing.JFrame {
         userActualName = new javax.swing.JLabel();
         btn_config = new javax.swing.JButton();
         btn_logout = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        label_name = new javax.swing.JLabel();
+        label_lastname = new javax.swing.JLabel();
+        label_email = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btn_search = new javax.swing.JButton();
         MenuUpdateDelete = new javax.swing.JScrollPane();
@@ -135,20 +148,26 @@ public class Principal extends javax.swing.JFrame {
         });
         jPanel1.add(btn_logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(194, 470, 114, 47));
 
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setOpaque(true);
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(61, 280, 247, 22));
+        label_name.setBackground(new java.awt.Color(255, 255, 255));
+        label_name.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        label_name.setForeground(new java.awt.Color(170, 170, 170));
+        label_name.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_name.setOpaque(true);
+        jPanel1.add(label_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(61, 280, 247, 22));
 
-        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setOpaque(true);
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(61, 330, 247, 22));
+        label_lastname.setBackground(new java.awt.Color(255, 255, 255));
+        label_lastname.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        label_lastname.setForeground(new java.awt.Color(170, 170, 170));
+        label_lastname.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_lastname.setOpaque(true);
+        jPanel1.add(label_lastname, new org.netbeans.lib.awtextra.AbsoluteConstraints(61, 330, 247, 22));
 
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setOpaque(true);
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(61, 380, 247, 22));
+        label_email.setBackground(new java.awt.Color(255, 255, 255));
+        label_email.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        label_email.setForeground(new java.awt.Color(170, 170, 170));
+        label_email.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_email.setOpaque(true);
+        jPanel1.add(label_email, new org.netbeans.lib.awtextra.AbsoluteConstraints(61, 380, 247, 22));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 590));
 
@@ -160,22 +179,22 @@ public class Principal extends javax.swing.JFrame {
         btn_search.setFocusable(false);
         jPanel2.add(btn_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 35, 50, 50));
 
-        TableUsers.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        TableUsers.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         TableUsers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "User", "Name", "Phone", "Email"
+                "Id", "User", "Name", "Phone", "Email"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -194,6 +213,7 @@ public class Principal extends javax.swing.JFrame {
             TableUsers.getColumnModel().getColumn(1).setResizable(false);
             TableUsers.getColumnModel().getColumn(2).setResizable(false);
             TableUsers.getColumnModel().getColumn(3).setResizable(false);
+            TableUsers.getColumnModel().getColumn(4).setResizable(false);
         }
 
         jPanel2.add(MenuUpdateDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 106, 410, 452));
@@ -218,16 +238,39 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void configTable(){
+        TableUsers.setRowHeight(30);
+        TableUsers.setSelectionBackground(new Color(200, 200, 200));
+        JTableHeader th = TableUsers.getTableHeader();
+        ((DefaultTableCellRenderer)th.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+        th.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        th.setForeground(new Color(255, 255, 255));
+    }
+    
     private void chargeTable() throws SQLException{
-        this.modelTable.setRowCount(0);
         
-        ResultSet rs = this.sys.selectData("select username, name, phone, email from users");
+        try{
+            this.sys = new systemConf();
         
-        while(rs.next()){
-            this.modelTable.addRow(new Object[]{
-                rs.getString("username"), rs.getString("name"), rs.getString("phone"), rs.getString("email")
-            });
+            this.modelTable.setRowCount(0);
+
+            ResultSet rs = this.sys.selectData("select id, username, name, phone, email from users");
+
+            while(rs.next()){
+                this.modelTable.addRow(new Object[]{
+                    rs.getString("id"),rs.getString("username"), rs.getString("name"), rs.getString("phone"), rs.getString("email")
+                });
+            }
+            
+            rs.close();
+        }catch(Exception e){
+            
+        }finally{
+            
+            this.sys.closeConnection();
         }
+
+        
     }
         
     private void btn_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logoutActionPerformed
@@ -244,7 +287,29 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn_updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_updateMouseClicked
         UpdateForm frm_update = new UpdateForm(this, true);
-        frm_update.setVisible(true);
+        try {
+            this.sys.closeConnection();
+            //this.sys.verify();
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int file = TableUsers.getSelectedRow();
+        
+        if(file >= 0){
+           frm_update.txt_id.setText(TableUsers.getValueAt(file, 0).toString());
+           frm_update.txt_name.setText(TableUsers.getValueAt(file, 2).toString());
+           frm_update.txt_phone.setText(TableUsers.getValueAt(file, 3).toString());
+           frm_update.txt_email.setText(TableUsers.getValueAt(file, 4).toString());
+           frm_update.setVisible(true); 
+        }else{
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado una fila");
+        }
+        
+        try {
+            chargeTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_updateMouseClicked
 
     private void btn_logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_logoutMouseClicked
@@ -303,12 +368,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btn_logout;
     private javax.swing.JButton btn_search;
     private javax.swing.JButton btn_update;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JLabel label_email;
+    private javax.swing.JLabel label_lastname;
+    private javax.swing.JLabel label_name;
     private javax.swing.JPanel pnl_btnUpdateDelete;
     private javax.swing.JTextField txt_search;
     private javax.swing.JLabel userActualName;
