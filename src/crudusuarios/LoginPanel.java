@@ -9,6 +9,9 @@ import static crudusuarios.LoginForm.container;
 import static crudusuarios.LoginForm.lg;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -170,7 +173,12 @@ public class LoginPanel extends javax.swing.JPanel {
         if(this.validateTxtFields()){
             JOptionPane.showMessageDialog(null, "Campos vacios");
         }else{
-            Principal pView = new Principal();
+            Principal pView = null;
+            try {
+                pView = new Principal();
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             lg.setVisible(false);
             

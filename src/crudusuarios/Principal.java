@@ -1,6 +1,8 @@
 package crudusuarios;
 
 
+import auxClass.systemConf;
+import static crudusuarios.LoginForm.lg;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -15,15 +17,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import java.sql.ResultSet;
 
 /**
  *
  * @author Akme
  */
 public class Principal extends javax.swing.JFrame {
-
-    public Principal() {
+    
+    DefaultTableModel modelTable;
+    systemConf sys = null;
+    
+    public Principal() throws SQLException {
         initComponents();
         setLocationRelativeTo(null);
         TableUsers.setRowHeight(30);
@@ -33,8 +40,13 @@ public class Principal extends javax.swing.JFrame {
         th.setFont(new Font("Segoe UI", Font.BOLD, 20));
         th.setForeground(new Color(255, 255, 255));
         jPopupMenu1.add(pnl_btnUpdateDelete);
+        
+        this.sys = new systemConf();
+        this.modelTable = (DefaultTableModel) TableUsers.getModel();
+        
+        chargeTable();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -206,6 +218,18 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void chargeTable() throws SQLException{
+        this.modelTable.setRowCount(0);
+        
+        ResultSet rs = this.sys.selectData("select username, name, phone, email from users");
+        
+        while(rs.next()){
+            this.modelTable.addRow(new Object[]{
+                rs.getString("username"), rs.getString("name"), rs.getString("phone"), rs.getString("email")
+            });
+        }
+    }
+        
     private void btn_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logoutActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_logoutActionPerformed
@@ -224,9 +248,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_updateMouseClicked
 
     private void btn_logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_logoutMouseClicked
-        
-        LoginForm lg = new LoginForm();
-        
+         
         this.setVisible(false);
         lg.setVisible(true);
         
@@ -264,7 +286,11 @@ public class Principal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Principal().setVisible(true);
+                try {
+                    new Principal().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

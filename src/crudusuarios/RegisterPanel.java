@@ -5,7 +5,11 @@
  */
 package crudusuarios;
 
+import auxClass.systemConf;
 import java.awt.FlowLayout;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -263,20 +267,58 @@ public class RegisterPanel extends javax.swing.JPanel {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         
-        String pass = new String(txt_pass.getPassword());
-        String passConf = new String(txt_confPass.getPassword());
+        systemConf sys = new systemConf();
         
         if(validateFields()){
+            
             JOptionPane.showMessageDialog(null, "Vacio");
+            
         }else if(!validatePasswords()){
+            
             JOptionPane.showMessageDialog(null, "Las contrasenas no concuerdan");
         }else{
-            JOptionPane.showMessageDialog(null, "Todo correcto");
+            
+            try {
+                
+                sys.insertData(generateSQLCode());
+                
+            } catch (SQLException ex) {
+                
+                Logger.getLogger(RegisterPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
         
+        try {
+            sys.closeConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(RegisterPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        cleanFlieds();
         
     }//GEN-LAST:event_jButton1MouseClicked
-
+    
+    private void cleanFlieds(){
+        txt_name.setText("");
+        txt_pass.setText("");
+        txt_user.setText("");
+        txt_lastName.setText("");
+        txt_confPass.setText("");
+        txt_Phone.setText("");
+        txt_email.setText("");
+    }
+    
+    private String generateSQLCode(){
+        
+        String pass = new String(txt_pass.getPassword());
+        
+        String sql = String.format("insert into users('name', 'password', 'lastname', 'username', 'phone', 'email')" +
+                                    "values('%s', '%s', '%s', '%s', '%s', '%s');",
+                                    txt_name.getText(), pass, txt_lastName.getText(), txt_user.getText(), txt_Phone.getText(), txt_email.getText());
+        
+        return sql;
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
