@@ -5,6 +5,20 @@
  */
 package crudusuarios;
 
+
+import auxClass.systemConf;
+import java.awt.Color;
+import java.awt.Font;
+import java.sql.SQLException;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Akme
@@ -14,9 +28,69 @@ public class ViewSearch extends javax.swing.JDialog {
     /**
      * Creates new form ViewSearch
      */
-    public ViewSearch(java.awt.Frame parent, boolean modal) {
+    
+    DefaultTableModel modelTable;
+    
+    public ViewSearch(java.awt.Frame parent, boolean modal) throws SQLException {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+       
+        configTable();
+        
+        this.modelTable = (DefaultTableModel) TableUsers.getModel();
+        
+        chargeTable();
+    }
+
+    ViewSearch() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    private void configTable(){
+        TableUsers.setRowHeight(30);
+        TableUsers.setSelectionBackground(new Color(200, 200, 200));
+        JTableHeader th = TableUsers.getTableHeader();
+        ((DefaultTableCellRenderer)th.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+        th.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        th.setForeground(new Color(255, 255, 255));
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        
+        TableUsers.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        TableUsers.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        TableUsers.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        TableUsers.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        TableUsers.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+    }
+    
+    private void chargeTable() throws SQLException{
+        
+        systemConf sys = new systemConf();
+        
+        String labelText = Principal.txt_search.getText();
+        
+        String sql = String.format("select id, username, name, phone, email from users where username like '%%"+"%s"+"%%'"
+                + " or phone like '%%"+"%s"+"%%' or email like '%%"+"%s"+"%%';", labelText, labelText, labelText);
+        
+        try(ResultSet rs = sys.selectData(sql)){
+            
+            this.modelTable.setRowCount(0);
+
+            while(rs.next()){
+                this.modelTable.addRow(new Object[]{
+                    rs.getString("id"),rs.getString("username"), rs.getString("name"), rs.getString("phone"), rs.getString("email")
+                });
+            }
+            
+            rs.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error de consulta");
+        }finally{
+            sys.closeConnection();
+        }
+
+        
     }
 
     /**
@@ -26,18 +100,43 @@ public class ViewSearch extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TableUsers = new javax.swing.JTable();
+        label_searchComp = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(200, 245, 233));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(126, 125, 125));
+        jLabel1.setText("SPECIFIC SEARCH");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, -1, -1));
+
+        TableUsers.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        TableUsers.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Id", "User", "Name", "Phone", "Email"
+            }
+        ));
+        jScrollPane1.setViewportView(TableUsers);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 580, -1));
+
+        label_searchComp.setForeground(new java.awt.Color(200, 245, 233));
+        jPanel1.add(label_searchComp, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 10, -1, -1));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, -5, 630, 530));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -72,18 +171,29 @@ public class ViewSearch extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ViewSearch dialog = new ViewSearch(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                
+                try {
+                    ViewSearch dialog = new ViewSearch(new javax.swing.JFrame(), true);
+                    
+                    dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                        @Override
+                        public void windowClosing(java.awt.event.WindowEvent e) {
+                            System.exit(0);
+                        }
+                    });
+                    dialog.setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ViewSearch.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TableUsers;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JLabel label_searchComp;
     // End of variables declaration//GEN-END:variables
 }

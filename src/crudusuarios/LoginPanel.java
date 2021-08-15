@@ -62,7 +62,7 @@ public class LoginPanel extends javax.swing.JPanel {
         txt_username.setBackground(new java.awt.Color(225, 225, 225));
         txt_username.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         txt_username.setForeground(new java.awt.Color(126, 125, 125));
-        txt_username.setText("Pepito56");
+        txt_username.setText("Pepito");
         txt_username.setToolTipText("Username");
         txt_username.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -110,7 +110,7 @@ public class LoginPanel extends javax.swing.JPanel {
         txt_pass.setBackground(new java.awt.Color(225, 225, 225));
         txt_pass.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         txt_pass.setForeground(new java.awt.Color(126, 125, 125));
-        txt_pass.setText("PepitoElGrillo");
+        txt_pass.setText("12345");
         txt_pass.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txt_passMouseClicked(evt);

@@ -184,6 +184,11 @@ public class Principal extends javax.swing.JFrame {
         btn_search.setBackground(new java.awt.Color(168, 168, 168));
         btn_search.setIcon(new javax.swing.ImageIcon("E:\\Things\\Programming\\Java\\CRUDUsuarios\\src\\images\\2.png")); // NOI18N
         btn_search.setFocusable(false);
+        btn_search.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_searchMouseClicked(evt);
+            }
+        });
         jPanel2.add(btn_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 35, 50, 50));
 
         TableUsers.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -397,6 +402,16 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btn_deleteMouseClicked
 
+    private void btn_searchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_searchMouseClicked
+        try {
+            ViewSearch frm_vSearch = new ViewSearch(this, true);
+
+            frm_vSearch.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_searchMouseClicked
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -449,7 +464,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel label_lastname;
     private javax.swing.JLabel label_name;
     private javax.swing.JPanel pnl_btnUpdateDelete;
-    private javax.swing.JTextField txt_search;
+    public static javax.swing.JTextField txt_search;
     private javax.swing.JLabel userActualName;
     // End of variables declaration//GEN-END:variables
 }
