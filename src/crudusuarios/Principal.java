@@ -52,11 +52,8 @@ public class Principal extends javax.swing.JFrame {
         this.modelTable = (DefaultTableModel) TableUsers.getModel();
         
         chargeTable();
+        configInfoUserActual();
         
-        userActualName.setText(sys.session.getUserName());
-        label_name.setText(sys.session.getName());
-        label_lastname.setText(sys.session.getLastName());
-        label_email.setText(sys.session.getEmail());
         this.sys.closeConnection();
     }
     
@@ -75,6 +72,7 @@ public class Principal extends javax.swing.JFrame {
         label_name = new javax.swing.JLabel();
         label_lastname = new javax.swing.JLabel();
         label_email = new javax.swing.JLabel();
+        label_id = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btn_search = new javax.swing.JButton();
         MenuUpdateDelete = new javax.swing.JScrollPane();
@@ -169,6 +167,10 @@ public class Principal extends javax.swing.JFrame {
         label_email.setOpaque(true);
         jPanel1.add(label_email, new org.netbeans.lib.awtextra.AbsoluteConstraints(61, 380, 247, 22));
 
+        label_id.setForeground(new java.awt.Color(99, 242, 204));
+        label_id.setText("[99,242,204]");
+        jPanel1.add(label_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 20, 10));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 590));
 
         jPanel2.setBackground(new java.awt.Color(200, 245, 233));
@@ -237,7 +239,15 @@ public class Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    private void configInfoUserActual(){
+        label_id.setText(String.valueOf(sys.session.getId()));
+        userActualName.setText(sys.session.getUserName());
+        label_name.setText(sys.session.getName());
+        label_lastname.setText(sys.session.getLastName());
+        label_email.setText(sys.session.getEmail());
+    }
+    
     private void configTable(){
         TableUsers.setRowHeight(30);
         TableUsers.setSelectionBackground(new Color(200, 200, 200));
@@ -249,12 +259,11 @@ public class Principal extends javax.swing.JFrame {
     
     private void chargeTable() throws SQLException{
         
-        try{
-            this.sys = new systemConf();
+        this.sys = new systemConf();
         
+        try(ResultSet rs = this.sys.selectData("select id, username, name, phone, email from users");){
+            
             this.modelTable.setRowCount(0);
-
-            ResultSet rs = this.sys.selectData("select id, username, name, phone, email from users");
 
             while(rs.next()){
                 this.modelTable.addRow(new Object[]{
@@ -264,9 +273,8 @@ public class Principal extends javax.swing.JFrame {
             
             rs.close();
         }catch(Exception e){
-            
+            JOptionPane.showMessageDialog(null, "Error de consulta");
         }finally{
-            
             this.sys.closeConnection();
         }
 
@@ -287,12 +295,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn_updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_updateMouseClicked
         UpdateForm frm_update = new UpdateForm(this, true);
-        try {
-            this.sys.closeConnection();
-            //this.sys.verify();
-        } catch (SQLException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         int file = TableUsers.getSelectedRow();
         
         if(file >= 0){
@@ -300,16 +303,23 @@ public class Principal extends javax.swing.JFrame {
            frm_update.txt_name.setText(TableUsers.getValueAt(file, 2).toString());
            frm_update.txt_phone.setText(TableUsers.getValueAt(file, 3).toString());
            frm_update.txt_email.setText(TableUsers.getValueAt(file, 4).toString());
-           frm_update.setVisible(true); 
+           frm_update.setVisible(true);
+           
+           try {
+               
+            chargeTable();
+            configInfoUserActual();
+            
+           }catch (SQLException ex) {
+               
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+           }
+           
         }else{
             JOptionPane.showMessageDialog(null, "No se ha seleccionado una fila");
         }
         
-        try {
-            chargeTable();
-        } catch (SQLException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }//GEN-LAST:event_btn_updateMouseClicked
 
     private void btn_logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_logoutMouseClicked
@@ -320,8 +330,17 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_logoutMouseClicked
 
     private void btn_configMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_configMouseClicked
-        ConfigForm frm_confirm = new ConfigForm(this, true);
-        frm_confirm.setVisible(true);
+        ConfigForm frm_config = new ConfigForm(this, true);
+        
+        frm_config.txt_username.setText(sys.session.getUserName());
+        frm_config.txt_name.setText(sys.session.getUserName());
+        frm_config.txt_lastname.setText(sys.session.getUserName());
+        frm_config.txt_phone.setText(sys.session.getUserName());
+        frm_config.txt_email.setText(sys.session.getUserName());
+        frm_config.txt_pass.setText(sys.session.getUserName());
+        frm_config.label_id.setText(String.valueOf(sys.session.getId()));
+        
+        frm_config.setVisible(true);
     }//GEN-LAST:event_btn_configMouseClicked
 
     public static void main(String args[]) {
@@ -372,6 +391,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JLabel label_email;
+    private javax.swing.JLabel label_id;
     private javax.swing.JLabel label_lastname;
     private javax.swing.JLabel label_name;
     private javax.swing.JPanel pnl_btnUpdateDelete;

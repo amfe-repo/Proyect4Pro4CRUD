@@ -6,13 +6,17 @@ package auxClass;
  */
 public class Users {
 
+    
+    
+    private int id;
     private String name;
     private String lastName;
     private String userName;
     private String phone;
     private String email;
     
-    public Users(String name, String lastName, String userName, String phone, String email) {
+    public Users(int id, String name, String lastName, String userName, String phone, String email) {
+        this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.userName = userName;
@@ -20,6 +24,10 @@ public class Users {
         this.email = email;
     }
     
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

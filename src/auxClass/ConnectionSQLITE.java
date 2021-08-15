@@ -71,20 +71,22 @@ public class ConnectionSQLITE {
     }
     
     public boolean verify() throws SQLException{
-        return ConnectionSQLITE.ps.isClosed() || ConnectionSQLITE.connect.isClosed();
+        return ConnectionSQLITE.ps.isClosed() && ConnectionSQLITE.connect.isClosed();
     }
     
     public ResultSet executeStatementSQL(int selection, String sqlStatement) throws SQLException{
         
-        this.ps = ConnectionSQLITE.connect.prepareStatement(sqlStatement);
+        ConnectionSQLITE.ps = ConnectionSQLITE.connect.prepareStatement(sqlStatement);
         
         if(selection <= 0){
             
-            return ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
+            return rs;
             
         }else if(selection == 1){
             
             ps.execute();
+            ps.close();
             
         }
         

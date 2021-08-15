@@ -207,11 +207,11 @@ public class ConfigForm extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField txt_email;
-    private javax.swing.JTextField txt_lastname;
-    private javax.swing.JTextField txt_name;
-    private javax.swing.JPasswordField txt_pass;
-    private javax.swing.JTextField txt_phone;
-    private javax.swing.JTextField txt_username;
+    public javax.swing.JTextField txt_email;
+    public javax.swing.JTextField txt_lastname;
+    public javax.swing.JTextField txt_name;
+    public javax.swing.JPasswordField txt_pass;
+    public javax.swing.JTextField txt_phone;
+    public javax.swing.JTextField txt_username;
     // End of variables declaration//GEN-END:variables
 }

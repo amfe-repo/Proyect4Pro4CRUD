@@ -178,10 +178,11 @@ public class LoginPanel extends javax.swing.JPanel {
            
         if(this.validateTxtFields()){
             JOptionPane.showMessageDialog(null, "Campos vacios");
-        }else try {
-            if(!sys.selectData(generateSQLCode()).isClosed()){
+        }else try(ResultSet rs = sys.selectData(generateSQLCode())) {
+            
+            if(!rs.isClosed()){
                 
-                sys.createSession(generateSession(sys.selectData(generateSQLCode())));
+                sys.createSession(generateSession(rs));
                 
                 Principal pView = new Principal();
                 
@@ -189,10 +190,9 @@ public class LoginPanel extends javax.swing.JPanel {
                 
                 pView.setVisible(true);
                 
+                rs.close();
                 
             }else{
-                ResultSet ss = sys.selectData(generateSQLCode());
-                JOptionPane.showMessageDialog(null, ss.getString("name"));
                 JOptionPane.showMessageDialog(null, "El usuario no existe");
             }
         } catch (SQLException ex) {
@@ -209,6 +209,7 @@ public class LoginPanel extends javax.swing.JPanel {
     
     private Users generateSession(ResultSet info) throws SQLException{
         return new Users(
+                Integer.parseInt(info.getString("id")),
                 info.getString("name"),
                 info.getString("lastname"),
                 info.getString("username"),
