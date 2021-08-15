@@ -214,7 +214,8 @@ public class LoginPanel extends javax.swing.JPanel {
                 info.getString("lastname"),
                 info.getString("username"),
                 info.getString("phone"),
-                info.getString("email")
+                info.getString("email"),
+                new String(txt_pass.getPassword())
         );
     }
     

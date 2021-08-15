@@ -1,20 +1,20 @@
 package crudusuarios;
 
+//import auxClass.ConnectionSQLITE;
+//import java.awt.Image;
+//import java.sql.Connection;
+//import java.sql.DriverManager;
+//import java.sql.PreparedStatement;
+//import java.sql.SQLException;
+//import javax.swing.ImageIcon;
 
-import auxClass.ConnectionSQLITE;
 import auxClass.systemConf;
 import static crudusuarios.LoginForm.lg;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.SQLException;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -100,6 +100,11 @@ public class Principal extends javax.swing.JFrame {
         btn_delete.setText("DELETE");
         btn_delete.setBorder(null);
         btn_delete.setFocusable(false);
+        btn_delete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_deleteMouseClicked(evt);
+            }
+        });
         pnl_btnUpdateDelete.add(btn_delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 240, 50));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -241,7 +246,7 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     private void configInfoUserActual(){
-        label_id.setText(String.valueOf(sys.session.getId()));
+        label_id.setText(String.valueOf(sys.session.getId()) + ":");
         userActualName.setText(sys.session.getUserName());
         label_name.setText(sys.session.getName());
         label_lastname.setText(sys.session.getLastName());
@@ -332,16 +337,65 @@ public class Principal extends javax.swing.JFrame {
     private void btn_configMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_configMouseClicked
         ConfigForm frm_config = new ConfigForm(this, true);
         
+        String id = String.valueOf(sys.session.getId());
+              
         frm_config.txt_username.setText(sys.session.getUserName());
-        frm_config.txt_name.setText(sys.session.getUserName());
-        frm_config.txt_lastname.setText(sys.session.getUserName());
-        frm_config.txt_phone.setText(sys.session.getUserName());
-        frm_config.txt_email.setText(sys.session.getUserName());
-        frm_config.txt_pass.setText(sys.session.getUserName());
-        frm_config.label_id.setText(String.valueOf(sys.session.getId()));
+        frm_config.txt_name.setText(sys.session.getName());
+        frm_config.txt_lastname.setText(sys.session.getLastName());
+        frm_config.txt_phone.setText(sys.session.getPhone());
+        frm_config.txt_email.setText(sys.session.getEmail());
+        frm_config.txt_pass.setText(sys.session.getPassword());
+         
+        frm_config.label_id.setText(id);
         
         frm_config.setVisible(true);
+        
+        try {
+            chargeTable();
+            configInfoUserActual();
+            
+           }catch (SQLException ex) {
+               
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+           }
+        
     }//GEN-LAST:event_btn_configMouseClicked
+
+    private void btn_deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_deleteMouseClicked
+        this.sys = new systemConf();
+        
+        int file = TableUsers.getSelectedRow();
+        
+        String sql = String.format("delete from users where id = '%s'", TableUsers.getValueAt(file, 0).toString());
+        
+        if(file >= 0){
+            try {
+            
+                this.sys.updateData(sql);
+            
+            } catch (SQLException ex) {
+
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+
+            } finally {
+
+                try {
+                    this.sys.closeConnection();
+                    chargeTable();
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado una fila");
+        }
+        
+        
+        
+        
+    }//GEN-LAST:event_btn_deleteMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

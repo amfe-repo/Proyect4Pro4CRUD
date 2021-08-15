@@ -5,6 +5,12 @@
  */
 package crudusuarios;
 
+import auxClass.systemConf;
+import auxClass.systemConf;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Akme
@@ -39,8 +45,9 @@ public class ConfigForm extends javax.swing.JDialog {
         txt_lastname = new javax.swing.JTextField();
         txt_phone = new javax.swing.JTextField();
         txt_email = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btn_saveChanges = new javax.swing.JButton();
         txt_pass = new javax.swing.JPasswordField();
+        label_id = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -112,11 +119,16 @@ public class ConfigForm extends javax.swing.JDialog {
         });
         jPanel2.add(txt_email, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 251, 38));
 
-        jButton1.setBackground(new java.awt.Color(112, 216, 136));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Save changes");
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 430, 151, 38));
+        btn_saveChanges.setBackground(new java.awt.Color(112, 216, 136));
+        btn_saveChanges.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        btn_saveChanges.setForeground(new java.awt.Color(255, 255, 255));
+        btn_saveChanges.setText("Save changes");
+        btn_saveChanges.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_saveChangesMouseClicked(evt);
+            }
+        });
+        jPanel2.add(btn_saveChanges, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 430, 151, 38));
 
         txt_pass.setBackground(new java.awt.Color(225, 225, 225));
         txt_pass.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
@@ -130,6 +142,10 @@ public class ConfigForm extends javax.swing.JDialog {
         jPanel2.add(txt_pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 251, 38));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 272, 480));
+
+        label_id.setForeground(new java.awt.Color(200, 245, 233));
+        label_id.setText("jLabel2");
+        jPanel1.add(label_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 10, 10));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 530));
 
@@ -160,6 +176,35 @@ public class ConfigForm extends javax.swing.JDialog {
         txt_pass.setText("");
     }//GEN-LAST:event_txt_passMouseClicked
 
+    private void btn_saveChangesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_saveChangesMouseClicked
+        systemConf sys = new systemConf();
+        
+        try {
+            sys.updateData(generateSQLCode());
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdateForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            sys.closeConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdateForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btn_saveChangesMouseClicked
+    
+    private String generateSQLCode(){
+        
+        String pass = new String(txt_pass.getPassword());
+        
+        String sql = String.format("update users set name = '%s', phone = '%s',"
+                + " email = '%s', username = '%s', password = '%s' where id = '%s'",
+                txt_name.getText(), txt_phone.getText(), txt_email.getText(),
+                txt_username.getText(), pass, label_id.getText());
+        
+        return sql;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -203,10 +248,11 @@ public class ConfigForm extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btn_saveChanges;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    public javax.swing.JPanel jPanel2;
+    public javax.swing.JLabel label_id;
     public javax.swing.JTextField txt_email;
     public javax.swing.JTextField txt_lastname;
     public javax.swing.JTextField txt_name;
